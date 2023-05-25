@@ -17,7 +17,7 @@ public class ItemRepository {
         if(item.getId() == null){
             em.persist(item);
         }else{
-            em.merge(item);
+            em.merge(item);  //여기서 item이 영속성 컨텍스트에 들어가는 것이 아니라 이 문장이 만든 엔티티가 영속성 컨텍스트에 들어간다.
         }
     }
 
