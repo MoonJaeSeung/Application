@@ -1,13 +1,13 @@
 package jpabook.jpashop.repository;
 
 import jpabook.jpashop.domain.Order;
+import jpabook.jpashop.repository.order.simplequery.OrderSimpleQueryDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
-import javax.persistence.criteria.CriteriaBuilder;
 import java.util.List;
 
 @Repository
@@ -68,12 +68,19 @@ public class OrderRepository {
         return em.createQuery(
                 "select o from Order o" +
                         " join fetch o.member m" +
-                        " join fetch o.delivery d",Order.class
+                        " join fetch o.delivery d", Order.class
         ).getResultList();
     }
 
-    /**
-     * JPA Criteria
-     */
 
+    public List<OrderSimpleQueryDto> findOrderDtos() {
+       return em.createQuery(
+                        "select new jpabook.jpashop.repository.OrderSimpleQueryDto(o.id, m.name, o.orderDate, o.status, d.address)" +
+                                " from Order o" +
+                                " join o.member m" +
+                                " join o.delivery d", OrderSimpleQueryDto.class) //쿼리 값은 entity나 value Object만 반환할수 있다.
+                .getResultList();
+    }
 }
+
+
