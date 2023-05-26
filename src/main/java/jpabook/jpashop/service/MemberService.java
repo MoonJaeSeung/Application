@@ -43,6 +43,12 @@ public class MemberService {
     public Member findOne(Long memberId){
         return memberRepository.findOne(memberId);
     }
+
+    @Transactional
+    public void update(Long id, String name) {
+        Member member = memberRepository.findOne(id); //db에서 갖고와서 영속 상태로 만들어준다
+        member.setName(name); //트랜잭션이 종료되고 더티체크했을 때 변경된걸알고 커밋할떄 업데이트 해준다.
+    }
 }
 
 
