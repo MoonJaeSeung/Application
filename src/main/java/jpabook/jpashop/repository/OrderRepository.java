@@ -72,15 +72,29 @@ public class OrderRepository {
         ).getResultList();
     }
 
-
-    public List<OrderSimpleQueryDto> findOrderDtos() {
-       return em.createQuery(
-                        "select new jpabook.jpashop.repository.OrderSimpleQueryDto(o.id, m.name, o.orderDate, o.status, d.address)" +
-                                " from Order o" +
-                                " join o.member m" +
-                                " join o.delivery d", OrderSimpleQueryDto.class) //쿼리 값은 entity나 value Object만 반환할수 있다.
+    public List<Order> findAllWithMemberDelivery(int offset, int limit) {
+        return em.createQuery(
+                        "select o from Order o" +
+                                " join fetch o.member m" +
+                                " join fetch o.delivery d", Order.class
+                ).setFirstResult(offset)
+                .setMaxResults(limit)
                 .getResultList();
     }
+
+
+    public List<Order> findAllWithItem() {
+        return em.createQuery(
+                        "select o from Order o" +
+                                " join fetch o.member m" +
+                                " join fetch o.delivery d", Order.class)
+                .setFirstResult(0)
+                .setMaxResults(101)
+                .getResultList();
+
+    }
+
+
 }
 
 

@@ -20,4 +20,5 @@ public class OrderSimpleQueryRepository {
                                 " join o.delivery d", OrderSimpleQueryDto.class) //쿼리 값은 entity나 value Object만 반환할수 있다.
                 .getResultList();
     }
+
 }
